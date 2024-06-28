@@ -10,6 +10,18 @@ const Container = styled.div`
   height: 100vh;
 `;
 
+const OutputContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 500px;
+  max-height: 500px;
+  width: 400px; /* Set a fixed width */
+  overflow-y: auto;
+  word-wrap: break-word; /* Ensure long words break to avoid expanding the container */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text as needed */
+  overflow-wrap: break-word; /* Break long words */
+`;
+
 const PersonLabel = styled.span`
   font-weight: bold;
   color: #333;
@@ -129,9 +141,7 @@ const CensorButton = styled(Button)`
 `;
 
 const CopyButton = styled(Button)`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  width: 100%;
 `;
 
 const TextCleaner = () => {
@@ -203,7 +213,6 @@ const TextCleaner = () => {
 
   const copyTextToClipboard = () => {
     navigator.clipboard.writeText(outputText);
-    alert("Formatted text copied to clipboard!");
   };
 
   return (
@@ -260,17 +269,12 @@ const TextCleaner = () => {
             >
               Clean Text
             </Button>
+            <CopyButton onClick={copyTextToClipboard}>
+              Copy Formatted Text
+            </CopyButton>
           </Section>
           <Section style={{ position: "relative" }}>
-            <div
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                height: "500px",
-                maxHeight: "500px",
-                overflowY: "auto",
-              }}
-            >
+            <OutputContainer>
               {outputText && (
                 <pre>
                   {outputText.split("\n").map((line, index) => (
@@ -284,12 +288,7 @@ const TextCleaner = () => {
                   ))}
                 </pre>
               )}
-            </div>
-            {outputText && (
-              <CopyButton onClick={copyTextToClipboard}>
-                Copy Formatted Text
-              </CopyButton>
-            )}
+            </OutputContainer>
           </Section>
         </div>
       </ContentWrapper>
